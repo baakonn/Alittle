@@ -12,6 +12,7 @@
         <attr name="pstsScrollOffset" format="dimension" />
         <attr name="pstsTabBackground" format="reference" />
         <attr name="pstsShouldExpand" format="boolean" />
+        <!--是否大写-->
         <attr name="pstsTextAllCaps" format="boolean" />
     </declare-styleable>
 
