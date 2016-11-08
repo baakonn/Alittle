@@ -18,7 +18,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 
-import com.bakon.alittle.fragment.PicFragment;
+import com.bakon.alittle.fragment.NewsFragment;
+import com.bakon.alittle.util.Constant;
 import com.bakon.alittle.widget.PagerSlidingTabStrip;
 
 import java.util.ArrayList;
@@ -26,9 +27,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.bakon.alittle.util.Constant.backPic;
-import static com.bakon.alittle.util.Constant.tabName;
 
 /**
  * MainActivity
@@ -59,27 +57,27 @@ public class MainActivity extends AppCompatActivity {
     private List<Fragment> fragmentList = new ArrayList<>();
 
     private void initViews() {
-        Fragment picFragment = new PicFragment();
+        Fragment picFragment = new NewsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("type", 0);
         picFragment.setArguments(bundle);
 
-        Fragment picFragment1 = new PicFragment();
+        Fragment picFragment1 = new NewsFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putInt("type", 1);
         picFragment1.setArguments(bundle1);
 
-        Fragment picFragment2 = new PicFragment();
+        Fragment picFragment2 = new NewsFragment();
         Bundle bundle2 = new Bundle();
         bundle2.putInt("type", 2);
         picFragment2.setArguments(bundle2);
 
-        Fragment picFragment3 = new PicFragment();
+        Fragment picFragment3 = new NewsFragment();
         Bundle bundle3 = new Bundle();
         bundle3.putInt("type", 3);
         picFragment3.setArguments(bundle3);
 
-        Fragment picFragment4 = new PicFragment();
+        Fragment picFragment4 = new NewsFragment();
         Bundle bundle4 = new Bundle();
         bundle4.putInt("type", 4);
         picFragment4.setArguments(bundle4);
@@ -162,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void colorChange(int position) {
         // 用来提取颜色的Bitmap
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), backPic[position]);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), Constant.backPic[position]);
         // Palette的部分
         Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {//提取完之后的回调方法
             @Override
@@ -224,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return tabName[position];
+            return Constant.tabName[position];
         }
 
         @Override
