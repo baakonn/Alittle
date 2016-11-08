@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         mPagerSlidingTabStrip.setSelectedTextColor(Color.WHITE);
         // 正常文字颜色
         mPagerSlidingTabStrip.setTextColor(Color.BLACK);
-        mPagerSlidingTabStrip.setTextSize(42);
+//        mPagerSlidingTabStrip.setTextSize(42);
         //初始第一个
         colorChange(0);
     }

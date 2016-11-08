@@ -27,8 +27,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.jakewharton:butterknife:8.4.0'
-    //    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.github.devlight.navigationtabbar:navigationtabbar:1.2.5'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.4.4'
+    //取色器
     compile 'com.android.support:palette-v7:24.2.1'
+    //okhttp
+    compile 'com.zhy:okhttputils:2.6.2'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+//    compile 'com.android.support:support-v4:24.2.1'
 }
