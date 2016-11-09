@@ -2,6 +2,7 @@ package com.bakon.alittle.bean;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * news item
@@ -24,7 +25,7 @@ public class NewsBean implements Serializable{
     //详情地址webview显示
     public String url;
     //图片地址
-    public String[] images;
+    public List<String> images;
     //used
     public boolean used;
     //作者name

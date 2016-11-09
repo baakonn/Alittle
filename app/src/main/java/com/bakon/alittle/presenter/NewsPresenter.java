@@ -8,7 +8,6 @@ package com.bakon.alittle.presenter;
 //http://www.cnblogs.com/liuling/archive/2015/12/23/mvp-pattern-android.html
 public interface NewsPresenter {
 
-    void loadNews(String url, int type);
-    void loadNewsNextPage(String url, int page);
+    void loadNews(int type, int pagerNum);
 
 }

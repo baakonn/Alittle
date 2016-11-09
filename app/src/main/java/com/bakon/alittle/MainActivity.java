@@ -57,36 +57,42 @@ public class MainActivity extends AppCompatActivity {
     private List<Fragment> fragmentList = new ArrayList<>();
 
     private void initViews() {
-        Fragment picFragment = new NewsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("type", 0);
-        picFragment.setArguments(bundle);
+//        Fragment picFragment = new NewsFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("type", 0);
+//        picFragment.setArguments(bundle);
+//
+//        Fragment picFragment1 = new NewsFragment();
+//        Bundle bundle1 = new Bundle();
+//        bundle1.putInt("type", 1);
+//        picFragment1.setArguments(bundle1);
+//
+//        Fragment picFragment2 = new NewsFragment();
+//        Bundle bundle2 = new Bundle();
+//        bundle2.putInt("type", 2);
+//        picFragment2.setArguments(bundle2);
+//
+//        Fragment picFragment3 = new NewsFragment();
+//        Bundle bundle3 = new Bundle();
+//        bundle3.putInt("type", 3);
+//        picFragment3.setArguments(bundle3);
+//
+//        Fragment picFragment4 = new NewsFragment();
+//        Bundle bundle4 = new Bundle();
+//        bundle4.putInt("type", 4);
+//        picFragment4.setArguments(bundle4);
+//
+//        fragmentList.add(picFragment);
+//        fragmentList.add(picFragment1);
+//        fragmentList.add(picFragment2);
+//        fragmentList.add(picFragment3);
+//        fragmentList.add(picFragment4);
 
-        Fragment picFragment1 = new NewsFragment();
-        Bundle bundle1 = new Bundle();
-        bundle1.putInt("type", 1);
-        picFragment1.setArguments(bundle1);
+        //根据tab个数，构造fragmentList
+        for (int i = 0; i < Constant.TABNAME.size(); i++) {
+            fragmentList.add(NewsFragment.newInstance(i));
+        }
 
-        Fragment picFragment2 = new NewsFragment();
-        Bundle bundle2 = new Bundle();
-        bundle2.putInt("type", 2);
-        picFragment2.setArguments(bundle2);
-
-        Fragment picFragment3 = new NewsFragment();
-        Bundle bundle3 = new Bundle();
-        bundle3.putInt("type", 3);
-        picFragment3.setArguments(bundle3);
-
-        Fragment picFragment4 = new NewsFragment();
-        Bundle bundle4 = new Bundle();
-        bundle4.putInt("type", 4);
-        picFragment4.setArguments(bundle4);
-
-        fragmentList.add(picFragment);
-        fragmentList.add(picFragment1);
-        fragmentList.add(picFragment2);
-        fragmentList.add(picFragment3);
-        fragmentList.add(picFragment4);
 
         //mToolbar init
 //        mToolbar.setLogo(R.drawable.ic_first);
@@ -182,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                     window.setStatusBarColor(colorBurn(vibrant.getRgb()));
                     window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
                 }
-
 //                mDrawerContent.setBackgroundColor(vibrant.getRgb());
             }
         });
@@ -222,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return Constant.tabName[position];
+            return Constant.TABNAME.get(position);
         }
 
         @Override

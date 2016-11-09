@@ -7,7 +7,6 @@ package com.bakon.alittle.model;
  */
 public interface NewsModel {
 
-    void loadNews(String url, int type);
-    void loadNewsNextPage(String url, int page);
+    void loadNews(String url, int type, OnLoadNewsListener listener);
 
 }
