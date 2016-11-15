@@ -10,5 +10,6 @@ Alittle-20161104
 主页功能已经完成，使用mvp模式。  
 完善之后会引入diycodes的开发API，  
 后期准备陆续加入一些开放比较好的程序员关注的API
-
+    
+![image](https://github.com/baakonn/Alittle/tree/master/app/src/main/res/screenshots/demo.gif)
 
