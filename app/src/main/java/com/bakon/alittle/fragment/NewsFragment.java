@@ -2,6 +2,7 @@ package com.bakon.alittle.fragment;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bakon.alittle.GankDetailsActivity;
 import com.bakon.alittle.NewsView;
 import com.bakon.alittle.R;
 import com.bakon.alittle.bean.NewsBean;
@@ -34,8 +36,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.attr.type;
 
 public class NewsFragment extends Fragment implements NewsView,SwipeRefreshLayout.OnRefreshListener{
     @BindView(R.id.recycleview)
@@ -67,11 +67,8 @@ public class NewsFragment extends Fragment implements NewsView,SwipeRefreshLayou
         return mMainView;
     }
 
-
-
     private void initData() {
         mType  = getArguments().getInt("type", 0);
-
     }
 
     private BaseQuickAdapter baseQuickAdapter;
@@ -82,7 +79,6 @@ public class NewsFragment extends Fragment implements NewsView,SwipeRefreshLayou
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         baseQuickAdapter = new BaseQuickAdapter(R.layout.item_comm, mNewsList) {
             @Override
@@ -93,6 +89,8 @@ public class NewsFragment extends Fragment implements NewsView,SwipeRefreshLayou
                               .setText(R.id.item_time, newsBean.publishedAt.substring(0,10));
 
                 if (mType == Constant.TAB_TYPE.SURPRISE) {
+                    //福利不显示desc
+                    baseViewHolder.setVisible(R.id.item_title, false);
                     Glide.with(NewsFragment.this)
                            .load(newsBean.url)
                            .error(R.drawable.fo)
@@ -109,15 +107,27 @@ public class NewsFragment extends Fragment implements NewsView,SwipeRefreshLayou
                                 .asBitmap().into(new SimpleTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                //取色
                                 colorChange(resource, baseViewHolder);
                             }
                         });
                     }
                 }
-
-
             }
         };
+        //自定义动画
+        baseQuickAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+//        baseQuickAdapter.openLoadAnimation(new BaseAnimation() {
+//            @Override
+//            public Animator[] getAnimators(View view) {
+//                return new Animator[]{
+//                        ObjectAnimator.ofFloat(view, "translationY", view.getMeasuredHeight() * 4, 0),
+//                        ObjectAnimator.ofFloat(view, "alpha", 0.5f, 1f),
+//                        ObjectAnimator.ofFloat(view, "scaleX", 0.5f, 1f),
+//                        ObjectAnimator.ofFloat(view, "scaleY", 0.5f, 1f)
+//                };
+//            }
+//        });
 
         mRecyclerView.setAdapter(baseQuickAdapter);
         onRefresh();
@@ -129,14 +139,12 @@ public class NewsFragment extends Fragment implements NewsView,SwipeRefreshLayou
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
-                ToastUtil.showShort(context, "onItemClick==" + position+ "  type"+type);
-//                Intent intent = new Intent(context, MDPanoramaIphoneActivity.class);
-//                intent.putExtra("id", fileNameList.get(position));
-//                intent.putExtra("type", 2);
-//                startActivity(intent);
+//                ToastUtil.showShort(context, "onItemClick==" + position+ "  type"+type);
+                Intent intent = new Intent(context, GankDetailsActivity.class);
+                intent.putExtra("url", mNewsList.get(position).url);
+                startActivity(intent);
             }
         });
-
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

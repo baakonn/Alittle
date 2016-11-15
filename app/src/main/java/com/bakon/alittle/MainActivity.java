@@ -57,42 +57,10 @@ public class MainActivity extends AppCompatActivity {
     private List<Fragment> fragmentList = new ArrayList<>();
 
     private void initViews() {
-//        Fragment picFragment = new NewsFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("type", 0);
-//        picFragment.setArguments(bundle);
-//
-//        Fragment picFragment1 = new NewsFragment();
-//        Bundle bundle1 = new Bundle();
-//        bundle1.putInt("type", 1);
-//        picFragment1.setArguments(bundle1);
-//
-//        Fragment picFragment2 = new NewsFragment();
-//        Bundle bundle2 = new Bundle();
-//        bundle2.putInt("type", 2);
-//        picFragment2.setArguments(bundle2);
-//
-//        Fragment picFragment3 = new NewsFragment();
-//        Bundle bundle3 = new Bundle();
-//        bundle3.putInt("type", 3);
-//        picFragment3.setArguments(bundle3);
-//
-//        Fragment picFragment4 = new NewsFragment();
-//        Bundle bundle4 = new Bundle();
-//        bundle4.putInt("type", 4);
-//        picFragment4.setArguments(bundle4);
-//
-//        fragmentList.add(picFragment);
-//        fragmentList.add(picFragment1);
-//        fragmentList.add(picFragment2);
-//        fragmentList.add(picFragment3);
-//        fragmentList.add(picFragment4);
-
         //根据tab个数，构造fragmentList
         for (int i = 0; i < Constant.TABNAME.size(); i++) {
             fragmentList.add(NewsFragment.newInstance(i));
         }
-
 
         //mToolbar init
 //        mToolbar.setLogo(R.drawable.ic_first);
@@ -130,9 +98,11 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int pos) {
                 colorChange(pos);
             }
+
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
             }
+
             @Override
             public void onPageScrollStateChanged(int arg0) {
             }
@@ -155,13 +125,13 @@ public class MainActivity extends AppCompatActivity {
         mPagerSlidingTabStrip.setSelectedTextColor(Color.WHITE);
         // 正常文字颜色
         mPagerSlidingTabStrip.setTextColor(Color.BLACK);
-//        mPagerSlidingTabStrip.setTextSize(42);
         //初始第一个
         colorChange(0);
     }
 
     /**
      * 修改ui色调
+     *
      * @param position
      */
     private void colorChange(int position) {
@@ -212,6 +182,11 @@ public class MainActivity extends AppCompatActivity {
         green = (int) Math.floor(green * (1 - 0.1));
         blue = (int) Math.floor(blue * (1 - 0.1));
         return Color.rgb(red, green, blue);
+    }
+
+    private int getFragmentColor() {
+        mPagerSlidingTabStrip.getTabBackground();
+        return 0;
     }
 
     /**

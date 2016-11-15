@@ -12,8 +12,6 @@ import com.bakon.alittle.util.UrlPath;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import static com.bakon.alittle.util.UrlPath.GANK_ANDROID;
-
 /**
  * NewsModel
  * author: bakon(762713299@qq.com)
@@ -72,7 +70,6 @@ public class NewsPresenterImpl implements NewsPresenter,OnLoadNewsListener {
         switch (type) {
             case Constant.TAB_TYPE.SURPRISE:
 //                url.append(URLEncoder.encode(UrlPath.GANK_SURPRISE, "utf-8"));
-//                url.append(GANK_SURPRISE);
                 url.append(UrlPath.GANK_SURPRISE);
                 break;
             case Constant.TAB_TYPE.ANDROID:
@@ -88,10 +85,10 @@ public class NewsPresenterImpl implements NewsPresenter,OnLoadNewsListener {
                 url.append(UrlPath.GANK_MORE);
                 break;
             default:
-                url.append(GANK_ANDROID);
+                url.append(UrlPath.GANK_ANDROID);
                 break;
         }
-        return url.append("/").append(UrlPath.GANK_PAGESIZE)
+        return url.append(UrlPath.GANK_PAGESIZE)
                 .append("/")
                 .append(pagerNum)
                 .toString();
