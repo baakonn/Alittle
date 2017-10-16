@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 黑色  -->
+    <color name="dark">#000000</color>
+    <!-- 浅黑色  -->
+    <color name="light_dark">#333333</color>
+    <!-- 透明  -->
+    <color name="transparent_d">#00000000</color>
+    <!--picker的线颜色-->
+    <color name="province_line_border">#D0D0D0</color>
+    <!-- 半透明  -->
+    <color name="halftransparent">#99000000</color>
+    <!-- 白色半透明  -->
+    <color name="white_halftransparent">#00ffffff</color>
+    <color name="dark_blue">#1C86EE</color>
+    <!-- 推荐浅蓝色 -->
+    <color name="recomend_blue_d">#a9def7</color>
+    <!-- 绿色 -->
+    <color name="green_d">#84b135</color>
+    <color name="green_halftransparent">#9900bb00</color>
+    <color name="dark_green">#22DD48</color>
+    <!-- 浅青色 -->
+    <color name="light_cyan_d">#f5fcff</color>
+    <!-- 橙色 -->
+    <color name="oringe">#ffd12c</color>
+    <!-- 开奖倒计时背景 -->
+    <color name="lucy_countdown">#FFCD33</color>
+    <!-- 箭头灰颜色  -->
+    <color name="arrow">#bababa</color>
+    <!-- 主页底部选中时的背景颜色  -->
+    <color name="tab_bg_selected">#f7f7f7</color>
+    <!-- 导航条的背景颜色  -->
+    <color name="title_bar_bg">@color/white</color>
+    <!-- 灰色  -->
+    <!-- color hint的颜色 -->
+    <color name="light_gray">#999999</color>
+    <!-- 主页底部未选中时的文字颜色、深灰色  -->
+    <color name="light_dark_gray">#666666</color>
+    <color name="dark_gray">#333333</color>
+    <!-- 主页底部选中时的文字颜色  -->
+    <color name="blue_d">#3a62fa</color>
+    <!--<color name="blue_d">#3a62fa</color>-->
+    <!-- 顶部标题栏背景粉红颜色  -->
+    <color name="dark_pink">#fe6141</color>
+    <!-- 主页面 用户页面背景颜色  -->
+    <color name="user_search_bg">@color/pressed_box_filler_gray</color>
+    <color name="user_bg">@color/pressed_box_filler_gray</color>
+    <!-- 未激活时显示的颜色  -->
+    <color name="disabled">@color/user_bg</color>
+    <color name="highlight">#f3f3f3</color>
+    <color name="pressed_box_filler_gray">#f5f5f5</color>
+    <!-- 边框颜色  -->
+    <color name="border">#e1e1e1</color>
+    <color name="border_list">#ebebeb</color>
+    <color name="border_experience">#999999</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="transparent">#00000000</color>
+
+
+    <color name="background">#F9F7F8</color>
+    <color name="background_gray1">#EBEBEB</color>
+    <color name="background_gray2">#E6E6E6</color>
+    <color name="background_gray3">#D4D4D4</color>
+    <color name="background_gray4">#EFEFF4</color>
+    <color name="line">#DDDDDD</color>
+    <color name="line_btn">#BBBBBB</color>
+    <color name="text_gray1">#777777</color>
+    <color name="text_gray2">#767676</color>
+    <color name="text_blue1">#1173CB</color>
+    <color name="text_blue2">#1173CA</color>
+    <color name="panel_black">#25272A</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="btn_red">#D63F41</color>
+    <color name="btn_red_hover">#E8484B</color>
+    <color name="btn_blue">#0F73CB</color>
+    <color name="btn_blue_hover">#1E86E4</color>
+    <color name="btn_text">#FFFFFF</color>
+    <color name="btn_text_hover">#CCFFFFFF</color>
+    <!--蒙版-->
+    <color name="colorMask">#66000000</color>
+
+
+    <color name="main_color_4ac4ab">#4ac4ab</color>
+
+</resources>

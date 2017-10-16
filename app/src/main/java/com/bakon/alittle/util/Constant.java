@@ -13,7 +13,7 @@ public class Constant {
     //是否是debug
     public static final boolean DEBUG = true;
     //界面颜色的更改
-    public static int[] backPic = {R.drawable.fi, R.drawable.f, R.drawable.fo, R.drawable.s, R.drawable.ic_launcher};
+    public static int[] backPic = {R.drawable.fi, R.drawable.f, R.drawable.fo, R.drawable.s, R.mipmap.logo};
 
 //    public final static String[] tabName = {"福利 ", "Android", "前端", "iOS", "拓展资源"};
     public static class TAB_TYPE {
