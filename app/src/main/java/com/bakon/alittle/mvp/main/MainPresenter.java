@@ -9,11 +9,14 @@ import com.bakon.alittle.bean.NewsBean;
 import com.bakon.alittle.util.Constant;
 import com.bakon.alittle.util.UrlPath;
 import com.bakon.base_lib.baseutil.LogUtil;
+import com.bakon.base_lib.model.CategoryResult;
+import com.bakon.base_lib.net.Network;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.UnsupportedEncodingException;
 
+import io.reactivex.Observable;
 import okhttp3.Call;
 
 /**
@@ -36,12 +39,28 @@ public class MainPresenter implements MainContract.Presenter {
         if (pagerNum == 0) {
 //            mNewsView.showProgress();
         }
-        loadNews(url, type, null);
+
+        Observable<CategoryResult> observable = Network.getInstance().getCategoryData(Constant.tabName[type],20,pagerNum);
+
+
+
+
+
+
+
     }
 
     @Override
     public void loadNews(String url, int type, final OnLoadNewsListener listener) {
         LogUtil.d("okhttputils", "loadNews url==" + url);
+
+
+
+
+
+
+
+
         OkHttpUtils.get()
                 .url(url)
                 .build()
@@ -79,7 +98,7 @@ public class MainPresenter implements MainContract.Presenter {
      * @return
      */
     private String getUrl(int type, int pagerNum) throws UnsupportedEncodingException {
-        StringBuffer url = new StringBuffer(UrlPath.GANK_BASEURL);
+        StringBuffer url = new StringBuffer();
         switch (type) {
             case Constant.TAB_TYPE.SURPRISE:
 //                url.append(URLEncoder.encode(UrlPath.GANK_SURPRISE, "utf-8"));
