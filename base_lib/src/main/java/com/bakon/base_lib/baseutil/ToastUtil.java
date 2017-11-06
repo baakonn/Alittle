@@ -46,7 +46,7 @@ public class ToastUtil {
     //整个App内共用的Toast提示
     public static Toast showToast(String msg) {
         msg = CommUtil.processStr(msg);
-        int padding = (int) (10 * BaseApplication.getInstance().getScale());
+        int padding = (int) (10 * SystemUtil.getScreenDensity());
         Toast mToast = new Toast(BaseApplication.getInstance());
         mToast.setDuration(Toast.LENGTH_SHORT);
         mToast.setGravity(Gravity.CENTER, 0, 0);
@@ -76,7 +76,7 @@ public class ToastUtil {
 
     public static Toast showDefaultGravityToast(String msg, boolean isCenter) {
         msg = CommUtil.processStr(msg);
-        int padding = (int) (10 * BaseApplication.getInstance().getScale());
+        int padding = (int) (10 * SystemUtil.getScreenDensity());
         Toast mDefaultGravityToast = new Toast(BaseApplication.getInstance());
         if (isCenter) {
             mDefaultGravityToast.setGravity(Gravity.CENTER, 0, 0);

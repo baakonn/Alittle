@@ -6,9 +6,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
-//        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-//        classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
+//        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 
@@ -16,6 +15,7 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
+        maven {url "https://dl.google.com/dl/android/maven2/"}
     }
 }
 

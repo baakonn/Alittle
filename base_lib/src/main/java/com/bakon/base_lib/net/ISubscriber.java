@@ -1,5 +1,5 @@
 package com.bakon.base_lib.net;
-import com.bakon.base_lib.model.BaseBean;
+
 
 import io.reactivex.disposables.Disposable;
 
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable;
  * 定义请求结果处理接口
  */
 
-public interface ISubscriber<T extends BaseBean> {
+public interface ISubscriber<T> {
 
     void doOnSubscribe(Disposable d);
 

@@ -5,22 +5,20 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 
 import com.bakon.alittle.R;
+import com.bakon.alittle.mvp.commadapter.ViewpageFragmentAdapter;
 import com.bakon.alittle.util.Constant;
 import com.bakon.alittle.widget.PagerSlidingTabStrip;
-import com.bakon.base_lib.base.BaseActivity;
+import com.bakon.base_lib.mvp.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,7 @@ import butterknife.BindView;
 /**
  * MainActivity
  */
-public class MainActivity extends BaseActivity<MainPresenter> {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -44,16 +42,16 @@ public class MainActivity extends BaseActivity<MainPresenter> {
     PagerSlidingTabStrip mPagerSlidingTabStrip;
 
     private ActionBarDrawerToggle mDrawerToggle;
-
+    private ViewpageFragmentAdapter adapter;
     private List<Fragment> fragmentList = new ArrayList<>();
 
     @Override
-    public int getLayoutID() {
+    public int initView(Bundle savedInstanceState) {
         return R.layout.activity_main;
     }
 
     @Override
-    public void init(Bundle savedInstanceState) {
+    public void initData(Bundle savedInstanceState) {
         //根据tab个数，构造fragmentList
         for (int i = 0; i < Constant.TABNAME.size(); i++) {
             fragmentList.add(NewsFragment.newInstance(i));
@@ -84,9 +82,9 @@ public class MainActivity extends BaseActivity<MainPresenter> {
 
 
         //mViewPager init
-        HomeViewPageAdapter adapter = new HomeViewPageAdapter(getSupportFragmentManager(), fragmentList);
+        adapter = new ViewpageFragmentAdapter(getSupportFragmentManager(), fragmentList, Constant.tabName);
         mViewPager.setCurrentItem(0);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(adapter);
 
         mPagerSlidingTabStrip.setViewPager(mViewPager);
@@ -108,22 +106,10 @@ public class MainActivity extends BaseActivity<MainPresenter> {
         initTabsValue();
     }
 
-    @Override
-    protected MainPresenter getPresenter() {
-        //这里可以new 其他Presenter
-        return new MainPresenter();
-    }
-
     /**
      * mPagerSlidingTabStrip默认值配置
      */
     private void initTabsValue() {
-        // tab底线高度
-        mPagerSlidingTabStrip.setUnderlineHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                1, getResources().getDisplayMetrics()));
-        // 游标高度
-        mPagerSlidingTabStrip.setIndicatorHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                5, getResources().getDisplayMetrics()));
         // 选中的文字颜色
         mPagerSlidingTabStrip.setSelectedTextColor(Color.WHITE);
         // 正常文字颜色
@@ -165,31 +151,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
 //                mDrawerContent.setBackgroundColor(vibrant.getRgb());
             }
         });
-/*
-        Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                Palette.Swatch vibrant = palette.getVibrantSwatch();
-                if (vibrant == null) {
-                    return;
-                }
-//                 界面颜色UI统一性处理,看起来更Material一些
-                mPagerSlidingTabStrip.setBackgroundColor(vibrant.getRgb());
-                mPagerSlidingTabStrip.setTextColor(vibrant.getTitleTextColor());
-                // 其中状态栏、游标、底部导航栏的颜色需要加深一下，也可以不加，具体情况在代码之后说明
-                mPagerSlidingTabStrip.setIndicatorColor(colorBurn(vibrant.getRgb()));
-//                mPagerSlidingTabStrip.setIndicatorColor(ContextCompat.getColor(getBaseContext(), R.color.white));
 
-                mToolbar.setBackgroundColor(vibrant.getRgb());
-                if (android.os.Build.VERSION.SDK_INT >= 21) {
-                    Window window = getWindow();
-                    // 很明显，这两货是新API才有的。
-                    window.setStatusBarColor(colorBurn(vibrant.getRgb()));
-                    window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
-                }
-//                mDrawerContent.setBackgroundColor(vibrant.getRgb());
-            }
-        });*/
     }
 
     /**
@@ -213,53 +175,14 @@ public class MainActivity extends BaseActivity<MainPresenter> {
         return Color.rgb(red, green, blue);
     }
 
-    private int getFragmentColor() {
-        mPagerSlidingTabStrip.getTabBackground();
-        return 0;
-    }
-
-    /**
-     * HomeViewPageAdapter
-     */
-    public class HomeViewPageAdapter extends FragmentPagerAdapter {
-        private List<Fragment> mFragments;
-
-        public HomeViewPageAdapter(FragmentManager fm, List<Fragment> mFragments) {
-            super(fm);
-            this.mFragments = mFragments;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return Constant.TABNAME.get(position);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragments.size();
-        }
-
-    }
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //把其他Presenter = null 防止内存泄漏
-    }
-
-
-    @Override
-    protected boolean useEventBus() {
+    public boolean useEventBus() {
         return false;
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public boolean onEventMainThread(Bundle bundle) {
-//        return false;
-//    }
+    @Override
+    public void setupActivityComponent() {
+
+    }
+
 }

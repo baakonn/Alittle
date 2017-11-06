@@ -1,11 +1,7 @@
 package com.bakon.base_lib.net;
 
-import android.widget.Toast;
+import com.bakon.base_lib.baseutil.ToastUtil;
 
-import com.bakon.base_lib.base.BaseApplication;
-import com.bakon.base_lib.model.BaseBean;
-
-import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -13,19 +9,12 @@ import java.net.UnknownHostException;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import okhttp3.ResponseBody;
-import retrofit2.HttpException;
 
 /**
  * 基类BaseObserver
  */
 
-public abstract class BaseObserver<T extends BaseBean> implements Observer<T>, ISubscriber<T> {
-
-    private Toast mToast;
-
-    protected void doOnNetError() {
-    }
+public abstract class BaseObserver<T> implements Observer<T>, ISubscriber<T> {
 
     @Override
     public void onSubscribe(@NonNull Disposable d) {
@@ -46,56 +35,19 @@ public abstract class BaseObserver<T extends BaseBean> implements Observer<T>, I
         } else if (e instanceof UnknownHostException) {
             setError("网络异常，请检查您的网络状态");
         } else {
-
-            String error = e.getMessage();
-            showToast(error);
-            doOnError(error);
+            setError(e.getMessage());
         }
     }
-
 
     @Override
     public void onComplete() {
         doOnCompleted();
     }
 
-
+    //错误显示
     private void setError(String errorMsg) {
-        showToast(errorMsg);
+        ToastUtil.showShort(errorMsg);
         doOnError(errorMsg);
-        doOnNetError();
     }
 
-
-    /**
-     * Toast提示
-     *
-     * @param msg 提示内容
-     */
-    protected void showToast(String msg) {
-        if (mToast == null) {
-            mToast = Toast.makeText(BaseApplication.getInstance(), msg, Toast.LENGTH_SHORT);
-        } else {
-            mToast.setText(msg);
-        }
-        mToast.show();
-    }
-
-    /**
-     * 错误处理
-     *
-     * @param e
-     * @return
-     */
-    private String handleError(Throwable e) {
-        String error = null;
-        try {
-            ResponseBody errorBody = ((HttpException) e).response().errorBody();
-            error = errorBody.string();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-
-        return error;
-    }
 }

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Administrator on 2017/10/17 0017.
  */
 
-public class BaseBean<T> {
+public class BaseResponse<T> {
     @SerializedName("code")
     private int code;
     @SerializedName("msg")

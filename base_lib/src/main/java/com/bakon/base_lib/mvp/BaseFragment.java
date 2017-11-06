@@ -13,25 +13,22 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package com.bakon.alittle.base;
+package com.bakon.base_lib.mvp;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jess.arms.base.delegate.IFragment;
-import com.jess.arms.integration.lifecycle.FragmentLifecycleable;
-import com.jess.arms.mvp.IPresenter;
-import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.trello.rxlifecycle2.components.support.RxFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
-import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * ================================================
@@ -43,37 +40,45 @@ import io.reactivex.subjects.Subject;
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * ================================================
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable {
+public abstract class BaseFragment<P extends IPresenter> extends RxFragment implements IFragment {
     protected final String TAG = this.getClass().getSimpleName();
-    private final BehaviorSubject<FragmentEvent> mLifecycleSubject = BehaviorSubject.create();
     @Inject
     protected P mPresenter;
-
-
-    @NonNull
-    @Override
-    public final Subject<FragmentEvent> provideLifecycleSubject() {
-        return mLifecycleSubject;
-    }
-
+    private View rootView;
+    public Unbinder mUnbinder;
     public BaseFragment() {
         //必须确保在Fragment实例化时setArguments()
         setArguments(new Bundle());
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return initView(inflater, container, savedInstanceState);
+        rootView = initView(inflater, container, savedInstanceState);
+        if (useEventBus()) {
+            EventBus.getDefault().register(this);
+        }
+        mUnbinder = ButterKnife.bind(this, rootView);
+        initInject();
+        initData(savedInstanceState);
+        return rootView;
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) mPresenter.onDestroy();//释放资源
+        if (useEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
+        if (mPresenter != null){
+            mPresenter.onDestroy();//释放资源
+        }
+        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY){
+            mUnbinder.unbind();
+        }
         this.mPresenter = null;
+        this.mUnbinder = null;
     }
 
 

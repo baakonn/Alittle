@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class SystemInfoUtil {
+public class SystemUtil {
 	/**
 	 * 获取设备ID
 	 * @return
@@ -120,14 +120,50 @@ public class SystemInfoUtil {
 		List<ActivityManager.RunningTaskInfo> rti = mActivityManager.getRunningTasks(1);
 		return getHomes().contains(rti.get(0).topActivity.getPackageName());
 	}
+
+
 	/**
-	 * 判断当前是否在本应用内
-	 * @return
+	 * 获取屏幕的宽度（单位：px）
+	 *
+	 * @return 屏幕宽
 	 */
-	public static boolean isMyApp() {
-		ActivityManager mActivityManager = (ActivityManager) BaseApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningTaskInfo> rti = mActivityManager.getRunningTasks(1);
-		return rti.get(0).topActivity.getPackageName().contains(BaseApplication.getInstance().getMyPackageName());
+	public static int getScreenWidth() {
+		return BaseApplication.getInstance().getResources().getDisplayMetrics().widthPixels;
 	}
+
+	/**
+	 * 获取屏幕的高度（单位：px）
+	 *
+	 * @return 屏幕高
+	 */
+	public static int getScreenHeight() {
+		return BaseApplication.getInstance().getResources().getDisplayMetrics().heightPixels;
+	}
+
+	/**
+	 * 获取屏幕密度
+	 *
+	 * @return 屏幕密度
+	 */
+	public static float getScreenDensity() {
+		return BaseApplication.getInstance().getResources().getDisplayMetrics().density;
+	}
+
+	/**
+	 * 获取屏幕密度DPI
+	 *
+	 * @return 屏幕密度DPI
+	 */
+	public static int getScreenDensityDpi() {
+		return BaseApplication.getInstance().getResources().getDisplayMetrics().densityDpi;
+	}
+
+
+
+
+
+
+
+
 
 }

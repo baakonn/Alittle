@@ -1,23 +1,27 @@
 package com.bakon.alittle.mvp.main;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bakon.alittle.R;
 import com.bakon.alittle.bean.NewsBean;
+import com.bakon.alittle.di.component.fragment.DaggerNewsComponent;
+import com.bakon.alittle.di.moudle.fragment.NewsModule;
 import com.bakon.alittle.util.Constant;
-import com.bakon.base_lib.base.BaseFragment;
+import com.bakon.base_lib.base.BaseApplication;
 import com.bakon.base_lib.baseutil.LogUtil;
-import com.bakon.base_lib.baseutil.ToastUtil;
+import com.bakon.base_lib.mvp.BaseFragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -30,7 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class NewsFragment extends BaseFragment<MainPresenter> implements SwipeRefreshLayout.OnRefreshListener {
+public class NewsFragment extends BaseFragment<MainPresenter> implements MainContract.View, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.recycleview)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout)
@@ -47,37 +51,30 @@ public class NewsFragment extends BaseFragment<MainPresenter> implements SwipeRe
 
     //tab类型
     private int mType = 0;
-    private Activity context;
-
 
     @Override
-    public int getLayoutID() {
-        return R.layout.fragment_layout;
+    public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_layout, null);
     }
 
     @Override
-    protected void init(Bundle savedInstanceState) {
-        initData();
+    public void initData(Bundle savedInstanceState) {
+        mType = getArguments().getInt("type", 0);
         initView();
         initListener();
     }
 
     @Override
-    protected MainPresenter getPresenter() {
-        //这里可以new 其他Presenter
-        return new MainPresenter();
-    }
+    public void setData(Object data) {
 
-    private void initData() {
-        mType = getArguments().getInt("type", 0);
     }
 
     private BaseQuickAdapter baseQuickAdapter;
-    private List<NewsBean> mNewsList = new ArrayList<NewsBean>();
+    private List<NewsBean> mNewsList = new ArrayList<>();
     private LinearLayoutManager mLayoutManager;
 
     private void initView() {
-        mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -116,17 +113,6 @@ public class NewsFragment extends BaseFragment<MainPresenter> implements SwipeRe
         };
         //自定义动画
         baseQuickAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
-//        baseQuickAdapter.openLoadAnimation(new BaseAnimation() {
-//            @Override
-//            public Animator[] getAnimators(View view) {
-//                return new Animator[]{
-//                        ObjectAnimator.ofFloat(view, "translationY", view.getMeasuredHeight() * 4, 0),
-//                        ObjectAnimator.ofFloat(view, "alpha", 0.5f, 1f),
-//                        ObjectAnimator.ofFloat(view, "scaleX", 0.5f, 1f),
-//                        ObjectAnimator.ofFloat(view, "scaleY", 0.5f, 1f)
-//                };
-//            }
-//        });
 
         mRecyclerView.setAdapter(baseQuickAdapter);
         onRefresh();
@@ -140,8 +126,7 @@ public class NewsFragment extends BaseFragment<MainPresenter> implements SwipeRe
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //                ToastUtil.showShort(context, "onItemClick==" + position+ "  type"+type);
-                Intent intent = new Intent(context, GankDetailsActivity.class);
+                Intent intent = new Intent(getContext(), GankDetailsActivity.class);
                 intent.putExtra("url", mNewsList.get(position).url);
                 startActivity(intent);
             }
@@ -190,6 +175,12 @@ public class NewsFragment extends BaseFragment<MainPresenter> implements SwipeRe
 
     }
 
+    @Override
+    public void onRefresh() {
+        //刷新后 pagerNum = 1
+        pagerNum = 1;
+        mPresenter.loadNews(mType, pagerNum);
+    }
 
     //第几页,第一页开始
     private int pagerNum = 1;
@@ -206,28 +197,34 @@ public class NewsFragment extends BaseFragment<MainPresenter> implements SwipeRe
 
     }
 
-    public void showProgress() {
-        mSwipeRefreshLayout.setRefreshing(true);
-    }
-
-    public void hideProgress() {
-        mSwipeRefreshLayout.setRefreshing(false);
-    }
-
-    public void showLoadFailMsg(String msg) {
-        ToastUtil.showShort("msg");
+    @Override
+    public void initInject() {
+        DaggerNewsComponent.builder()
+                .appComponent(BaseApplication.getAppComponent())
+                .newsModule(new NewsModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
-    public void onRefresh() {
-        //第一页开始
-        pagerNum = 1;
-        mPresenter.loadNews(mType, pagerNum);
-    }
-
-
-    @Override
-    protected boolean useEventBus() {
+    public boolean useEventBus() {
         return false;
+    }
+
+
+    @Override
+    public void showData(Message message) {
+        mSwipeRefreshLayout.setRefreshing(false);
+
+        if (message == null){
+            return;
+        }
+        switch (message.what){
+            case MainContract.errorCode:
+                break;
+            case MainContract.succCode:
+                addNews((List<NewsBean>) message.obj);
+                break;
+        }
     }
 }

@@ -16,8 +16,6 @@
 
 package com.bakon.alittle.widget;
 
-import java.util.Locale;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -41,6 +39,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bakon.alittle.R;
+
+import java.util.Locale;
 
 
 public class PagerSlidingTabStrip extends HorizontalScrollView {

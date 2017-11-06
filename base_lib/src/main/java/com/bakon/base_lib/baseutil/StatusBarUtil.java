@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.bakon.base_lib.R;
-import com.bakon.base_lib.base.BaseApplication;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -32,7 +31,7 @@ public class StatusBarUtil {
      * 获取状态栏高度
      */
     public static int getStatusBarHeight(Activity activity) {
-        int statusBarHeight = (int) (25 * BaseApplication.getInstance().getScale());
+        int statusBarHeight = (int) (25 * SystemUtil.getScreenDensity());
         Rect localRect = new Rect();
         if (activity != null && activity.getWindow() != null && activity.getWindow().getDecorView() != null) {
             activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(localRect);
@@ -45,12 +44,12 @@ public class StatusBarUtil {
                     int i5 = Integer.parseInt(localClass.getField("status_bar_height").get(localObject).toString());
                     statusBarHeight = activity.getResources().getDimensionPixelSize(i5);
                 } catch (Exception e) {
-                    statusBarHeight = (int) (25 * BaseApplication.getInstance().getScale());
+                    statusBarHeight = (int) (25 * SystemUtil.getScreenDensity());
                 }
             }
         }
         if (statusBarHeight == 0) {
-            statusBarHeight = (int) (25 * BaseApplication.getInstance().getScale());
+            statusBarHeight = (int) (25 * SystemUtil.getScreenDensity());
         }
         return statusBarHeight;
     }

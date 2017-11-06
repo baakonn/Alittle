@@ -57,15 +57,15 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
     compile project(':base_lib')
-    compile 'com.github.devlight.navigationtabbar:navigationtabbar:1.2.5'
+//    compile 'com.github.devlight.navigationtabbar:navigationtabbar:1.2.5'
 
     //取色器
     compile 'com.android.support:palette-v7:26+'
-    //okhttp
-    compile 'com.zhy:okhttputils:2.6.2'
-
-    compile 'com.alibaba:fastjson:1.2.20'
+    //daggger2
+    compile 'com.google.dagger:dagger:2.12'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.12'
 
     //butterknife(module中依赖无效,2边都要添加)
     compile 'com.jakewharton:butterknife:8.8.1'

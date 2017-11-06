@@ -3,7 +3,8 @@ package com.bakon.base_lib.net;
 import com.bakon.base_lib.BuildConfig;
 import com.bakon.base_lib.baseutil.Contant;
 import com.bakon.base_lib.baseutil.NetUtil;
-import com.bakon.base_lib.baseutil.SystemInfoUtil;
+import com.bakon.base_lib.baseutil.SystemUtil;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,20 +29,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //https://github.com/lygttpod/RxHttpUtils
 
 public class Network {
+    public static String API_BASE_URL = "http://gank.io/api/";
 
     private static OkHttpClient okHttpClient = null;
     private static Retrofit retrofit;
     private static Network network;
-    private static ApiStore apiStore;
 
-    //默认的apiStore
-    public static ApiStore getInstance() {
-        if (apiStore == null) {
-            network = new Network();
-            apiStore = retrofit.create(ApiStore.class);
-        }
-        return apiStore;
-    }
     //retrofit，创建不同的api
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
@@ -104,7 +97,7 @@ public class Network {
                 //Headers headers = originalRequest.headers();
                 HttpUrl modifiedUrl = originalRequest.url().newBuilder()
                         .addQueryParameter("platform", "android")
-                        .addQueryParameter("version", SystemInfoUtil.getVersionCode() + "")
+                        .addQueryParameter("version", SystemUtil.getVersionCode() + "")
                         .build();
                 request = originalRequest.newBuilder().url(modifiedUrl).build();
                 return chain.proceed(request);
@@ -143,8 +136,8 @@ public class Network {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .client(okHttpClient)
-                    .baseUrl(ApiStore.API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(API_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create(new Gson()))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }

@@ -1,15 +1,12 @@
 package com.bakon.alittle.bean;
 
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * news item
  */
-public class NewsBean implements Serializable{
-    private static final long serialVersionUID = 1L;
-
+public class NewsBean{
     //id  hash值
     public String _id;
     //创建时间 2016-10-01T11:50:13.266Z

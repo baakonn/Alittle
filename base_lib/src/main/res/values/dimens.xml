@@ -7,4 +7,5 @@
 
     <dimen name="dimes_20">20dp</dimen>
     <dimen name="dimes_25">25dp</dimen>
+    <dimen name="toolbar_padding_top">0dp</dimen>
 </resources>

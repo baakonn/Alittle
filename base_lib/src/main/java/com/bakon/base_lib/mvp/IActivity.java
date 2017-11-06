@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bakon.alittle.base;
+package com.bakon.base_lib.mvp;
 
 
 import android.app.Activity;
@@ -27,6 +27,11 @@ import android.os.Bundle;
  */
 public interface IActivity {
 
+
+    /**
+     *实现依赖
+     */
+    void setupActivityComponent();
 
     /**
      * 是否使用 EventBus
