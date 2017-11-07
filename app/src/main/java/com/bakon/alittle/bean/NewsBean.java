@@ -27,4 +27,5 @@ public class NewsBean{
     public boolean used;
     //作者name
     public String who;
+
 }

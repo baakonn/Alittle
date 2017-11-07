@@ -2,9 +2,9 @@ package com.bakon.base_lib.net;
 
 import com.bakon.base_lib.BuildConfig;
 import com.bakon.base_lib.baseutil.Contant;
+import com.bakon.base_lib.baseutil.LogUtil;
 import com.bakon.base_lib.baseutil.NetUtil;
 import com.bakon.base_lib.baseutil.SystemUtil;
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,6 +82,7 @@ public class Network {
         builder.cache(cache).addInterceptor(cacheInterceptor);
         //log设置
         if (BuildConfig.LOG_DEBUG) {
+            LogUtil.d("BuildConfig.LOG_DEBUG= "+BuildConfig.LOG_DEBUG);
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             //设置 Debug Log 模式
@@ -104,6 +105,7 @@ public class Network {
             }
         };
         builder.addInterceptor(addQueryParameterInterceptor);
+
         //设置公共header
         Interceptor headerInterceptor = new Interceptor() {
             @Override
@@ -111,7 +113,7 @@ public class Network {
                 Request originalRequest = chain.request();
                 Request.Builder requestBuilder = originalRequest.newBuilder()
                         .header("AppType", "TPOS")
-                        .header("Accept-Encoding", "gzip, deflate")
+//                        .header("Accept-Encoding", "gzip, deflate")
                         .header("Content-Type", "application/json")
                         .header("Accept", "application/json")
                         .method(originalRequest.method(), originalRequest.body());
@@ -137,7 +139,7 @@ public class Network {
             retrofit = new Retrofit.Builder()
                     .client(okHttpClient)
                     .baseUrl(API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                    .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }
