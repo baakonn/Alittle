@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 import com.bakon.base_lib.di.component.AppComponent;
 import com.bakon.base_lib.di.component.DaggerAppComponent;
 import com.bakon.base_lib.di.module.AppModule;
+import com.bakon.base_lib.di.module.NetworkModule;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -26,6 +27,7 @@ public class BaseApplication extends Application {
         if (appComponent == null) {
             appComponent = DaggerAppComponent.builder()
                     .appModule(new AppModule(mApplication))
+                    .networkModule(new NetworkModule())
                     .build();
         }
         return appComponent;
@@ -45,8 +47,6 @@ public class BaseApplication extends Application {
         //内存泄漏检测
         refWatcher = setupLeakCanary();
 
-        //初始化OKHttp配置
-//        HttpUtils.initOkHttpUtils();
         //初始化DB
 //        GreenDaoManager.getInstance();
         //腾讯X5

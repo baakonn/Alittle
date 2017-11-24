@@ -23,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.view.Window;
 
 import com.bakon.base_lib.base.AppManager;
+import com.bakon.base_lib.base.BaseApplication;
 import com.bakon.base_lib.baseutil.StatusBarUtil;
 import com.bakon.base_lib.di.component.ActivityComponent;
 import com.bakon.base_lib.di.component.DaggerActivityComponent;
@@ -42,10 +43,6 @@ import static com.bakon.base_lib.base.BaseApplication.getAppComponent;
  * ================================================
  * 因为 Java 只能单继承,所以如果要用到需要继承特定 {@link Activity} 的三方库,那你就需要自己自定义 {@link Activity}
  * 继承于这个特定的 {@link Activity},然后再按照 {@link BaseActivity} 的格式,将代码复制过去,记住一定要实现{@link IActivity}
- * <p>
- * Created by JessYan on 22/03/2016
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
  * ================================================
  */
 public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActivity implements IActivity {
@@ -71,8 +68,8 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
             mUnbinder = ButterKnife.bind(this);
             //dagger注入
             setupActivityComponent();
-            AppManager.getAppManager().addActivity(this);
-            AppManager.getAppManager().setCurrentActivity(this);
+            BaseApplication.getAppComponent().appManager().addActivity(this);
+            BaseApplication.getAppComponent().appManager().setCurrentActivity(this);
             if (useEventBus()) {
                 EventBus.getDefault().register(this);
             }
