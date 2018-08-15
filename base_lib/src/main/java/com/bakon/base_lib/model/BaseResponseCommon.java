@@ -4,24 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * 服务器通用返回数据格式
- * gankio的数据形式
- * {
- "error": false,
- "results": []
- }
  * Created by Administrator on 2017/10/17 0017.
  */
 
-public class BaseResponse<T> {
-    @SerializedName("error")
-    private boolean error;
+public class BaseResponseCommon<T> {
+    @SerializedName("code")
+    private int code;
     @SerializedName("msg")
     private String msg;
-    @SerializedName("results")
-    private T results;
+    @SerializedName("data")
+    private T data;
 
     public boolean isSuccess() {
-        return error == false;
+        return code == 0;
+    }
+
+    public int getCode() {
+        return code;
     }
 
     public String getMsg() {
@@ -29,6 +28,6 @@ public class BaseResponse<T> {
     }
 
     public T getData() {
-        return results;
+        return data;
     }
 }

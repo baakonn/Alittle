@@ -21,12 +21,17 @@ import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.bakon.base_lib.di.scope.ApplicationScope;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import timber.log.Timber;
 
@@ -35,36 +40,25 @@ import timber.log.Timber;
  * ================================================
  * 用于管理所有 activity,和在前台的 activity
  * 可以通过直接持有 AppManager 对象执行对应方法
- *
  */
+@Singleton
 public class AppManager {
     protected final String TAG = this.getClass().getSimpleName();
     //管理所有activity
-    public List<Activity> mActivityList;
+    private List<Activity> mActivityList;
     //当前在前台的activity
     private Activity mCurrentActivity;
-    public static AppManager instance;
 
-
-    private AppManager() {
+    @Inject
+    public AppManager() {
     }
-
-    /**
-     * 单一实例
-     */
-    public static AppManager getAppManager() {
-        if (instance == null) {
-            instance = new AppManager();
-        }
-        return instance;
-    }
-
 
     private void dispatchStart(Message message) {
-        if (message.obj instanceof Intent)
+        if (message.obj instanceof Intent) {
             startActivity((Intent) message.obj);
-        else if (message.obj instanceof Class)
+        } else if (message.obj instanceof Class) {
             startActivity((Class) message.obj);
+        }
     }
 
 

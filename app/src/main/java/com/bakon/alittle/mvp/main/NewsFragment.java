@@ -1,6 +1,7 @@
 package com.bakon.alittle.mvp.main;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -62,6 +63,10 @@ public class NewsFragment extends BaseFragment<MainPresenter> implements MainCon
         mType = getArguments().getInt("type", 0);
         initView();
         initListener();
+
+//        BaseApplication.getAppComponent().appManager().showSnackbar("我就测试一下SnackBar", true);
+        BaseApplication.getAppComponent().logUtil().d("logutil 测试");
+
     }
 
     @Override
@@ -186,7 +191,6 @@ public class NewsFragment extends BaseFragment<MainPresenter> implements MainCon
     private int pagerNum = 1;
 
     public void addNews(List<NewsBean> newsList) {
-
         if (pagerNum == 1) {
             mNewsList.clear();
         }

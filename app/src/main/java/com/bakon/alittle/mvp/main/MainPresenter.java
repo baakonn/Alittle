@@ -5,6 +5,7 @@ import android.os.Message;
 import com.bakon.alittle.bean.ApiStore;
 import com.bakon.alittle.bean.NewsBean;
 import com.bakon.alittle.util.Constant;
+import com.bakon.base_lib.base.BaseApplication;
 import com.bakon.base_lib.model.BaseResponse;
 import com.bakon.base_lib.mvp.BasePresenter;
 import com.bakon.base_lib.net.BaseObserver;
@@ -35,6 +36,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
 
     @Override
     public void loadNews(int type, int pagerNum) {
+//    BaseApplication.getAppComponent().getHttpApi()  //也可以这样使用
         Network.getRetrofit().create(ApiStore.class)
                 .getCategoryData(Constant.tabName[type], 20, pagerNum)
                 .compose(Transformer.<BaseResponse<List<NewsBean>>>switchSchedulers())

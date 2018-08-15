@@ -1,15 +1,19 @@
-package com.bakon.base_lib.net;
+package com.bakon.base_lib.di.module;
 
 import com.bakon.base_lib.BuildConfig;
 import com.bakon.base_lib.baseutil.Contant;
 import com.bakon.base_lib.baseutil.LogUtil;
 import com.bakon.base_lib.baseutil.NetUtil;
 import com.bakon.base_lib.baseutil.SystemUtil;
+import com.bakon.base_lib.di.scope.ApplicationScope;
+import com.bakon.base_lib.net.HttpAPI;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import dagger.Module;
+import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.HttpUrl;
@@ -27,29 +31,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 //https://github.com/lygttpod/RxHttpUtils
-
-public class Network {
+@Module
+public class NetworkModule {
     public static String API_BASE_URL = "http://gank.io/api/";
 
-    private static OkHttpClient okHttpClient = null;
-    private static Retrofit retrofit;
-    private static Network network;
-
-    //retrofit，创建不同的api
-    public static Retrofit getRetrofit() {
-        if (retrofit == null) {
-            network = new Network();
-        }
-        return retrofit;
-    }
-
-    //初始化
-    public Network() {
-        initOkHttp();
-        initRetrofit();
-    }
-
-    private static void initOkHttp() {
+    @ApplicationScope
+    @Provides
+    public OkHttpClient providesOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         // 缓存 http://www.jianshu.com/p/93153b34310e
         File cacheFile = new File(Contant.NET_CACHE);
@@ -82,7 +70,7 @@ public class Network {
         builder.cache(cache).addInterceptor(cacheInterceptor);
         //log设置
         if (BuildConfig.LOG_DEBUG) {
-            LogUtil.d("BuildConfig.LOG_DEBUG= "+BuildConfig.LOG_DEBUG);
+            LogUtil.d("BuildConfig.LOG_DEBUG= " + BuildConfig.LOG_DEBUG);
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             //设置 Debug Log 模式
@@ -130,19 +118,24 @@ public class Network {
         builder.writeTimeout(20, TimeUnit.SECONDS);
         //错误重连
         builder.retryOnConnectionFailure(true);
-        okHttpClient = builder.build();
+        return builder.build();
     }
 
     //初始化retrofit
-    private static void initRetrofit() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .client(okHttpClient)
-                    .baseUrl(API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .build();
-        }
+    @ApplicationScope
+    @Provides
+    public Retrofit providesRetrofit(OkHttpClient okHttpClient) {
+        return new Retrofit.Builder().client(okHttpClient)
+                .baseUrl(API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+    }
+
+    @ApplicationScope
+    @Provides
+    public HttpAPI provideHttpAPI(Retrofit restAdapter) {
+        return restAdapter.create(HttpAPI.class);
     }
 
 }
