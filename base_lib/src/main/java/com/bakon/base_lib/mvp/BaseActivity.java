@@ -103,7 +103,7 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
      */
     @Override
     public boolean useEventBus() {
-        return true;
+        return false;
     }
 
     //  建议写在基类Activity里

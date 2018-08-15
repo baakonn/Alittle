@@ -1,5 +1,6 @@
 package com.bakon.alittle.mvp.main;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -13,9 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bakon.alittle.R;
 import com.bakon.alittle.mvp.commadapter.ViewpageFragmentAdapter;
+import com.bakon.alittle.mvp.view_overturn.OverReturnActivity;
 import com.bakon.alittle.util.Constant;
 import com.bakon.alittle.widget.PagerSlidingTabStrip;
 import com.bakon.base_lib.mvp.BaseActivity;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * MainActivity
@@ -40,6 +44,8 @@ public class MainActivity extends BaseActivity {
     ViewPager mViewPager;
     @BindView(R.id.tabs)
     PagerSlidingTabStrip mPagerSlidingTabStrip;
+    @BindView(R.id.overreturn)
+    TextView overreturn;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private ViewpageFragmentAdapter adapter;
@@ -176,13 +182,17 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public boolean useEventBus() {
-        return false;
-    }
-
-    @Override
     public void setupActivityComponent() {
 
+    }
+
+    @OnClick({R.id.overreturn})
+    void btnOnclicl(View view) {
+        switch (view.getId()) {
+            case R.id.overreturn:
+                startActivity(new Intent(this, OverReturnActivity.class));
+                break;
+        }
     }
 
 }
