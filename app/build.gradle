@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.jakewharton.butterknife'
+//apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.bakon.alittle"
         minSdkVersion 15
@@ -17,10 +17,6 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
-        }
-        //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
-        lintOptions {
-            abortOnError false
         }
     }
 
@@ -57,7 +53,6 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     api project(':base_lib')
 //    compile 'com.github.devlight.navigationtabbar:navigationtabbar:1.2.5'
 
